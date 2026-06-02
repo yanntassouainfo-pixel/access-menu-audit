@@ -79,11 +79,11 @@ input { font: inherit; color: inherit; }
 .nav__cta {
   display: inline-flex;
   align-items: center;
-  height: 38px;
-  padding-inline: 18px;
+  height: 44px; /* tap target standard mobile (44px+) */
+  padding-inline: 20px;
   border: 1px solid rgba(255,255,255,0.6);
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   color: #fff;
   letter-spacing: 0.04em;
@@ -96,12 +96,16 @@ input { font: inherit; color: inherit; }
    ============================================================ */
 .scene {
   position: relative;
-  min-height: 100vh;
+  min-height: 100svh; /* small viewport height — corrige le jitter mobile lié à la barre d'URL */
   width: 100%;
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding: clamp(100px, 12vh, 140px) var(--gutter) clamp(60px, 7vh, 90px);
+  padding: clamp(80px, 11vh, 140px) var(--gutter) clamp(56px, 7vh, 90px);
+}
+/* fallback pour navigateurs sans support svh */
+@supports not (height: 100svh) {
+  .scene { min-height: 100vh; }
 }
 
 .scene__img {
@@ -180,9 +184,9 @@ input { font: inherit; color: inherit; }
   font-weight: 300;
   color: var(--gold-bright);
 }
-.display--xl { font-size: clamp(56px, 9.5vw, 148px); }
-.display--l  { font-size: clamp(46px, 6.6vw, 92px); }
-.display--m  { font-size: clamp(40px, 5.4vw, 76px); color: var(--ink); }
+.display--xl { font-size: clamp(40px, 8.5vw, 148px); }
+.display--l  { font-size: clamp(36px, 6.4vw, 92px); }
+.display--m  { font-size: clamp(32px, 5.2vw, 76px); color: var(--ink); }
 .display--m em { color: var(--gold); }
 
 .lead {
