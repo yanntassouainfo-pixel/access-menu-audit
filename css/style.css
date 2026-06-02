@@ -299,7 +299,7 @@ input { font: inherit; color: inherit; }
   height: auto !important;
   inset: auto;
   overflow: hidden;
-  background: #0E1230;
+  background: var(--bg-light); /* fondu avec la page, plus de liseret sombre */
   z-index: 1;
   transform: scale(1.02);
   transition: transform 8s ease-out;
