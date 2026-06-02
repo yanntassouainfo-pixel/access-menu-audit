@@ -288,27 +288,28 @@ input { font: inherit; color: inherit; }
 }
 .scene__visual {
   position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  background: #0E1230;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .scene__photo--block {
   position: relative !important;
-  width: 100%; height: 100%;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  height: auto !important;
   inset: auto;
+  overflow: hidden;
+  background: #0E1230;
   z-index: 1;
   transform: scale(1.02);
   transition: transform 8s ease-out;
 }
 .scene--02.is-visible .scene__photo--block { transform: scale(1); }
+/* la légende sort de la photo et flotte en dessous, sur le fond crème */
 .scene__visual figcaption {
-  position: absolute;
-  bottom: 24px; left: 24px;
-  z-index: 2;
   margin: 0;
-  color: black;
-  font-weight: 500;
-  text-shadow: 0 1px 12px rgba(0,0,0,0.4);
+  padding: 0 2px;
+  text-shadow: none;
 }
 
 .promesses {
@@ -360,7 +361,114 @@ input { font: inherit; color: inherit; }
 }
 
 /* ============================================================
-   SCENE 03 — CLUB FOUNDERS
+   SCENE 03 — APERÇU APP (iPhone 3D mockup)
+   ============================================================ */
+.scene--app {
+  background: var(--bg-light);
+  align-items: center;
+}
+.scene-app__inner {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(48px, 7vw, 110px);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .scene-app__inner { grid-template-columns: 1fr; gap: 56px; }
+  .scene-app__copy { text-align: center; margin-inline: auto; }
+}
+.scene-app__copy { display: grid; max-width: 540px; }
+.scene-app__copy .display { color: var(--ink); }
+.scene-app__copy .display em { color: var(--gold); }
+.scene-app__copy .lead { margin-top: 28px; }
+
+/* --- iPhone 3D mockup --- */
+.phone-3d {
+  position: relative;
+  width: 100%;
+  max-width: clamp(240px, 30vw, 340px);
+  aspect-ratio: 9 / 19.5;
+  margin: 0 auto;
+  perspective: 2000px;
+}
+.phone-3d__device {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #2c2c30 0%, #0d0d0f 60%, #050505 100%);
+  border-radius: 11.5% / 5.5%;
+  padding: 7px;
+  transform: rotateY(-14deg) rotateX(7deg) rotateZ(-1.5deg);
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.2, 0.6, 0.2, 1);
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,0.07),
+    inset 0 1.5px 0 rgba(255,255,255,0.15),
+    0 6px 12px rgba(0,0,0,0.16),
+    0 24px 36px -8px rgba(0,0,0,0.28),
+    0 60px 80px -20px rgba(0,0,0,0.22);
+}
+.phone-3d:hover .phone-3d__device {
+  transform: rotateY(-8deg) rotateX(3deg) rotateZ(0);
+}
+.phone-3d__screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 8.5% / 4%;
+  overflow: hidden;
+  background: #1a1410;
+  position: relative;
+}
+.phone-3d__screen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+.phone-3d__notch {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 32%;
+  max-width: 100px;
+  height: 22px;
+  background: #000;
+  border-radius: 0 0 18px 18px;
+  z-index: 3;
+}
+.phone-3d__glare {
+  position: absolute;
+  inset: 7px;
+  border-radius: 8.5% / 4%;
+  background: linear-gradient(125deg,
+    rgba(255,255,255,0.12) 0%,
+    rgba(255,255,255,0.05) 22%,
+    transparent 42%,
+    transparent 62%,
+    rgba(255,255,255,0.04) 82%,
+    rgba(255,255,255,0.09) 100%);
+  pointer-events: none;
+  z-index: 2;
+  mix-blend-mode: screen;
+}
+.phone-3d__shadow {
+  position: absolute;
+  bottom: -3%;
+  left: 5%;
+  right: 5%;
+  height: 28px;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0.35) 0%, transparent 70%);
+  filter: blur(14px);
+  z-index: -1;
+}
+
+/* ============================================================
+   SCENE 04 — CLUB FOUNDERS
    ============================================================ */
 .scene--03 {
   align-items: center;
