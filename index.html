@@ -122,14 +122,23 @@
       <p class="lead lead--dark">Logo, icônes, photos, couleurs — votre carte parle votre langue, en plusieurs langues. Vos clients consultent, commandent, et vous écrivent sur WhatsApp en un geste.</p>
     </header>
 
-    <div class="phone-3d" aria-hidden="true">
-      <div class="phone-3d__shadow"></div>
+    <div class="phone-3d" data-phone-slider>
       <div class="phone-3d__device">
-        <div class="phone-3d__notch"></div>
-        <div class="phone-3d__screen">
-          <img src="images/app-apercu.webp" alt="Aperçu de l'application ACCESS Menu — carte digitale d'un restaurant togolais" loading="lazy" decoding="async">
+        <div class="phone-3d__shadow" aria-hidden="true"></div>
+        <div class="phone-3d__notch" aria-hidden="true"></div>
+        <div class="phone-3d__screen" role="region" aria-label="Démonstration de l'app ACCESS Menu">
+          <div class="phone-3d__slides">
+            <img class="phone-3d__slide is-active" src="images/premier-ecran.webp" alt="Écran ACCESS Menu — détail d'un plat" loading="lazy" decoding="async" draggable="false">
+            <img class="phone-3d__slide" src="images/app-apercu.webp" alt="Écran ACCESS Menu — accueil avec familles de produits" loading="lazy" decoding="async" draggable="false">
+            <img class="phone-3d__slide" src="images/troisieme-ecran.webp" alt="Écran ACCESS Menu — paiements sécurisés intégrés" loading="lazy" decoding="async" draggable="false">
+          </div>
         </div>
-        <div class="phone-3d__glare"></div>
+        <div class="phone-3d__glare" aria-hidden="true"></div>
+      </div>
+      <div class="phone-3d__nav" role="tablist" aria-label="Choisir un écran à afficher">
+        <button type="button" class="phone-3d__dot is-active" data-phone-dot="0" role="tab" aria-selected="true" aria-label="Écran 1 sur 3"></button>
+        <button type="button" class="phone-3d__dot" data-phone-dot="1" role="tab" aria-selected="false" aria-label="Écran 2 sur 3"></button>
+        <button type="button" class="phone-3d__dot" data-phone-dot="2" role="tab" aria-selected="false" aria-label="Écran 3 sur 3"></button>
       </div>
     </div>
 

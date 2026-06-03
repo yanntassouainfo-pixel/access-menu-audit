@@ -116,4 +116,96 @@
       }
     });
   });
+
+  /* ---------- Phone 3D slider — 3 écrans avec auto-rotate + swipe + dots ---------- */
+  (function initPhoneSlider() {
+    const phone = document.querySelector('[data-phone-slider]');
+    if (!phone) return;
+
+    const track  = phone.querySelector('.phone-3d__slides');
+    const slides = phone.querySelectorAll('.phone-3d__slide');
+    const dots   = phone.querySelectorAll('[data-phone-dot]');
+    if (!track || !slides.length || !dots.length) return;
+
+    const TOTAL      = slides.length;
+    const AUTO_MS    = 5000;   // rotation auto toutes les 5 s
+    const RESUME_MS  = 9000;   // reprise auto 9 s après une interaction
+    const THRESHOLD  = 40;     // px minimum pour valider un swipe
+
+    let index   = 0;
+    let timer   = null;
+    let isHover = false;
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function applyTransform() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach((d, i) => {
+        const active = i === index;
+        d.classList.toggle('is-active', active);
+        d.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
+    }
+
+    function goTo(i) {
+      index = ((i % TOTAL) + TOTAL) % TOTAL;
+      applyTransform();
+    }
+    const next = () => goTo(index + 1);
+    const prev = () => goTo(index - 1);
+
+    function startAuto() {
+      if (prefersReduced || isHover) return;
+      stopAuto();
+      timer = setInterval(next, AUTO_MS);
+    }
+    function stopAuto() {
+      if (timer) { clearInterval(timer); timer = null; }
+    }
+    function pauseThenResume(ms = RESUME_MS) {
+      stopAuto();
+      setTimeout(() => { if (!isHover) startAuto(); }, ms);
+    }
+
+    // Pastilles
+    dots.forEach((d) => {
+      d.addEventListener('click', () => {
+        goTo(parseInt(d.getAttribute('data-phone-dot'), 10) || 0);
+        pauseThenResume();
+      });
+    });
+
+    // Pause au survol (desktop)
+    phone.addEventListener('mouseenter', () => { isHover = true; stopAuto(); });
+    phone.addEventListener('mouseleave', () => { isHover = false; startAuto(); });
+
+    // Flèches clavier quand le focus est sur le slider
+    phone.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { next(); pauseThenResume(); }
+      else if (e.key === 'ArrowLeft') { prev(); pauseThenResume(); }
+    });
+
+    // Swipe tactile + souris (sur l'écran de l'iPhone)
+    const surface = phone.querySelector('.phone-3d__screen');
+    if (surface) {
+      let sx = 0, sy = 0, started = false;
+      const onStart = (x, y) => { sx = x; sy = y; started = true; stopAuto(); };
+      const onEnd = (x, y) => {
+        if (!started) return;
+        started = false;
+        const dx = x - sx, dy = y - sy;
+        if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > THRESHOLD) {
+          dx < 0 ? next() : prev();
+        }
+        pauseThenResume();
+      };
+      surface.addEventListener('touchstart', (e) => onStart(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+      surface.addEventListener('touchend',   (e) => onEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY));
+      surface.addEventListener('pointerdown', (e) => { if (e.pointerType === 'mouse') onStart(e.clientX, e.clientY); });
+      surface.addEventListener('pointerup',   (e) => { if (e.pointerType === 'mouse') onEnd(e.clientX, e.clientY); });
+    }
+
+    applyTransform();
+    startAuto();
+  })();
 })();
